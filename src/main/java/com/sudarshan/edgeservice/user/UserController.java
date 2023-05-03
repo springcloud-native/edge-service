@@ -34,7 +34,8 @@ public class UserController {
 				oidcUser.getPreferredUsername(),
 				oidcUser.getGivenName(),
 				oidcUser.getFamilyName(),
-				List.of("employee", "customer")
+				oidcUser.getClaimAsStringList("roles")
+				//List.of("employee", "customer") //hard coded for testing
 				);
 		return Mono.just(user); 
 	}
