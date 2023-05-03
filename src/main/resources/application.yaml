@@ -42,6 +42,10 @@ spring:
             - name: CircuitBreaker
               args:
                 name: orderCircuitBreaker
+        - id: spa-route
+          uri: ${SPA_URL:http://localhost:9004}
+          predicates:                          
+            - Path=/,/*.css,/*.js,/favicon.ico 
       httpclient:
         connect-timeout: 2000
         response-timeout: 5s
@@ -79,7 +83,19 @@ spring:
     store-type: redis 
     timeout: 10m 
     redis: 
-      namespace: polar:edge 
+      namespace: polar:edge
+      
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak: 
+            client-id: edge-service 
+            client-secret: polar-keycloak-secret 
+            scope: openid 
+        provider:
+          keycloak: 
+            issuer-uri: http://192.168.0.9:8080/realms/PolarBookshop 
 
 resilience4j:
   circuitbreaker:
