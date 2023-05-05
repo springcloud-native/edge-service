@@ -13,10 +13,26 @@ spec:
     metadata:
       labels:
         app: edge-service
+      annotations: 
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "9000"
     spec:
       containers:
         - name: edge-service
           image: edge-service
+          livenessProbe:
+            httpGet:  
+              path: /actuator/health/liveness 
+              port: 9000 
+            initialDelaySeconds: 10 
+            periodSeconds: 5        
+          readinessProbe: 
+            httpGet:  
+              path: /actuator/health/readiness 
+              port: 9000 
+            initialDelaySeconds: 5 
+            periodSeconds: 15 
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:

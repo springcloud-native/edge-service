@@ -24,7 +24,8 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, ReactiveClientRegistrationRepository clientRegistrationRepository) {
-		return http.authorizeExchange(exchange -> exchange.pathMatchers("/", "/*.css", "/*.js", "/favicon.ico").permitAll()
+		return http.authorizeExchange(exchange -> exchange.pathMatchers("/actuator/**").permitAll()
+														.pathMatchers("/", "/*.css", "/*.js", "/favicon.ico").permitAll()
 														.pathMatchers(HttpMethod.GET, "/books/**").permitAll()
 														.anyExchange().authenticated()) 
 				.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)))
